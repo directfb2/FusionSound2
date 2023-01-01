@@ -1,0 +1,18 @@
+2.0.0
+-----
+
+Meson build system
+
+No external dependency
+
+Static library support for MCU targets
+
+Modularization of the source code, which now only contains:
+  - libfusionsound core library
+  - a generic sound driver for supported operating systems (only Linux for now)
+    (on Linux OS, legacy OSS or modern ALSA sound driver)
+  - the WAVE music provider
+
+Separate packages for:
+  - additional sound drivers
+  - additional music providers
