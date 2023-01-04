@@ -207,7 +207,7 @@ device_open( void                  *device_data,
 
           ioctl( fd, SOUND_MIXER_INFO, &mixer_info );
 
-          snprintf( device_info->name, FS_SOUND_DEVICE_INFO_NAME_LENGTH, mixer_info.id );
+          direct_snputs( device_info->name, mixer_info.id, FS_SOUND_DEVICE_INFO_NAME_LENGTH );
 
           ioctl( fd, SOUND_MIXER_READ_DEVMASK, &mask );
 
