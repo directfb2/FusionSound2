@@ -77,6 +77,7 @@ pkgconfig.generate(filebase: 'fusionsound',
                    name: 'FusionSound',
                    description: 'Audio subsystem using Fusion IPC',
                    requires: 'direct fusion',
+                   requires_private: 'fusionsound-interfaces fusionsound-snddrivers',
                    libraries: '-L${libdir} -lfusionsound',
                    subdirs: 'fusionsound')
 

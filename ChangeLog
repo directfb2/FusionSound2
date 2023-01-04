@@ -1,3 +1,24 @@
+commit ce6776550c1b089902170f76221acad34b7e114b
+Author: Nicolas Caramelli <caramelli.devel@gmail.com>
+Date:   Wed Jan 4 19:27:22 2023 +0100
+
+    Add support for static libraries (MCU targets)
+
+commit 507394ecde73ff46f0d20b43879b81fe33e08ffc
+Merge: a6da879 b54cf21
+Author: DirectFB2 <80045286+directfb2@users.noreply.github.com>
+Date:   Sun Jan 1 07:42:39 2023 +0100
+
+    Merge pull request #2 from caramelli/master
+    
+    Revival of FusionSound
+
+commit b54cf2167378e93c5edf47f77e41ea9988b121e1
+Author: Nicolas Caramelli <caramelli.devel@gmail.com>
+Date:   Sun Jan 1 07:41:07 2023 +0100
+
+    Add ChangeLog
+
 commit 6fb9e5997a5e1d8417d55d383fb8cb9fa51b7b49
 Author: Nicolas Caramelli <caramelli.devel@gmail.com>
 Date:   Sun Jan 1 07:40:41 2023 +0100

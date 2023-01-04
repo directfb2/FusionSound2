@@ -19,6 +19,7 @@
 #include <config.h>
 #include <alsa/asoundlib.h>
 #include <core/sound_driver.h>
+#include <direct/util.h>
 
 D_DEBUG_DOMAIN( ALSA_Sound, "ALSA/Sound", "ALSA Sound Driver" );
 
@@ -242,7 +243,7 @@ device_open( void                  *device_data,
 
           snd_ctl_card_info( ctl, info );
 
-          snprintf( device_info->name, FS_SOUND_DEVICE_INFO_NAME_LENGTH, snd_ctl_card_info_get_name( info ) );
+          direct_snputs( device_info->name, snd_ctl_card_info_get_name( info ), FS_SOUND_DEVICE_INFO_NAME_LENGTH );
 
           device_info->caps = DCF_VOLUME;
 
