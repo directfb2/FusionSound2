@@ -59,17 +59,16 @@ subdir('src')
 
 # snddriver modules
 
-libfusionsound_snddrivers = []
 libfusionsound_snddrivers_private = []
 subdir('snddrivers/dummy')
 if get_option('default_library') == 'static'
-  libfusionsound_snddrivers += ['-L${moduledir}/snddrivers']
-  libfusionsound_snddrivers += ['-Wl,--whole-archive -lfusionsound_dummy']
+  libfusionsound_snddrivers_private += ['-L${moduledir}/snddrivers']
+  libfusionsound_snddrivers_private += ['-Wl,--whole-archive -lfusionsound_dummy']
 endif
 if get_option('alsa')
   subdir('snddrivers/alsa')
   if get_option('default_library') == 'static'
-    libfusionsound_snddrivers += ['-lfusionsound_alsa']
+    libfusionsound_snddrivers_private += ['-lfusionsound_alsa']
     libfusionsound_snddrivers_private += run_command('pkg-config', '--static', '--libs', 'alsa',
                                                      check: true).stdout().strip()
   endif
@@ -77,33 +76,30 @@ endif
 if get_option('oss')
   subdir('snddrivers/oss')
   if get_option('default_library') == 'static'
-    libfusionsound_snddrivers += ['-lfusionsound_oss']
+    libfusionsound_snddrivers_private += ['-lfusionsound_oss']
   endif
 endif
 if get_option('default_library') == 'static'
-  libfusionsound_snddrivers += ['-Wl,--no-whole-archive']
+  libfusionsound_snddrivers_private += ['-Wl,--no-whole-archive']
 endif
 
 pkgconfig.generate(filebase: 'fusionsound-snddrivers',
                    variables: 'moduledir=' + moduledir,
                    name: 'FusionSound-snddrivers',
                    description: 'FusionSound snddriver modules',
-                   libraries: libfusionsound_snddrivers,
                    libraries_private: libfusionsound_snddrivers_private)
 
 # interface modules
 
-libfusionsound_interfaces = []
 libfusionsound_interfaces_private = []
 subdir('interfaces/IFusionSoundMusicProvider')
 if get_option('default_library') == 'static'
-  libfusionsound_interfaces += ['-L${moduledir}/interfaces/IFusionSoundMusicProvider']
-  libfusionsound_interfaces += ['-Wl,--whole-archive -lifusionsoundmusicprovider_wave -Wl,--no-whole-archive']
+  libfusionsound_interfaces_private += ['-L${moduledir}/interfaces/IFusionSoundMusicProvider']
+  libfusionsound_interfaces_private += ['-Wl,--whole-archive -lifusionsoundmusicprovider_wave -Wl,--no-whole-archive']
 endif
 
 pkgconfig.generate(filebase: 'fusionsound-interfaces',
                    variables: 'moduledir=' + moduledir,
                    name: 'FusionSound-interfaces',
                    description: 'FusionSound interface modules',
-                   libraries: libfusionsound_interfaces,
                    libraries_private: libfusionsound_interfaces_private)

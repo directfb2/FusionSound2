@@ -53,8 +53,6 @@ FusionSoundInit( int   *argc,
 {
      DirectResult ret;
 
-     D_DEBUG_AT( FusionSound_Main, "%s( %p, %p )\n", __FUNCTION__, argc, argv );
-
      ret = fs_config_init( argc, argv );
      if (ret)
           return ret;
@@ -142,7 +140,7 @@ FusionSoundCreate( IFusionSound **ret_interface )
 
      *ret_interface = ifusionsound_singleton;
 
-     return ret;
+     return DR_OK;
 }
 
 DirectResult

@@ -86,7 +86,8 @@ fs_device_initialize( CoreSound              *core,
           if (!device->module) {
                if (fs_config->driver) {
                     D_ERROR( "CoreSound/Device: Sound driver '%s' not found!\n", fs_config->driver );
-               } else {
+               }
+               else {
                     D_ERROR( "CoreSound/Device: No sound driver found!\n" );
                }
 

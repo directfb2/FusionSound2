@@ -757,7 +757,8 @@ fs_core_deinit_check( void *ctx )
                          c = 1;                                              \
                          s = src[c] + src[4];                                \
                          BODY                                                \
-                    } else {                                                 \
+                    }                                                        \
+                    else {                                                   \
                          c = 0;                                              \
                          s = src[c] + src[2] + src[3];                       \
                          BODY                                                \
@@ -793,7 +794,8 @@ fs_core_deinit_check( void *ctx )
                          c = 1;                                              \
                          s = src[c];                                         \
                          BODY                                                \
-                    } else {                                                 \
+                    }                                                        \
+                    else {                                                   \
                          c = 0;                                              \
                          s = src[c] + src[2];                                \
                          BODY                                                \
@@ -805,7 +807,8 @@ fs_core_deinit_check( void *ctx )
                          c = 3;                                              \
                          s = fsf_shr( src[c] + src[c+1], 1 );                \
                          BODY                                                \
-                    } else {                                                 \
+                    }                                                        \
+                    else {                                                   \
                          c = 3;                                              \
                          s = src[c];                                         \
                          BODY                                                \
