@@ -373,7 +373,8 @@ fs_buffer_mixto( CoreSoundBuffer *buffer,
                     max  = tmp;
                     last = true;
                }
-          } else {
+          }
+          else {
                /* Stop position is greater than start position. */
                if (pos >= stop)
                     stop += buffer->length;

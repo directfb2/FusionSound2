@@ -53,12 +53,16 @@ D_DECLARE_INTERFACE( IFusionSoundMusicProvider )
 
 /**********************************************************************************************************************/
 
+#define FUSIONSOUND_API
+
+/**********************************************************************************************************************/
+
 /*
  * Checks for a certain FusionSound version.
  * In case of an error a message is returned describing
  * the mismatch.
  */
-const char  *FusionSoundCheckVersion (
+const char   FUSIONSOUND_API *FusionSoundCheckVersion (
      unsigned int                            required_major,     /* major version */
      unsigned int                            required_minor,     /* minor version */
      unsigned int                            required_micro      /* micro version */
@@ -69,7 +73,7 @@ const char  *FusionSoundCheckVersion (
  * You absolutely need to call this before doing anything else.
  * Removes all options used by FusionSound from argv.
  */
-DirectResult FusionSoundInit (
+DirectResult FUSIONSOUND_API  FusionSoundInit (
      int                                    *argc,               /* pointer to main()'s argc */
      char                                  **argv[]              /* pointer to main()'s argv */
 );
@@ -79,7 +83,7 @@ DirectResult FusionSoundInit (
  * config file. Can only be called before FusionSoundCreate but
  * after FusionSoundInit.
  */
-DirectResult FusionSoundSetOption (
+DirectResult FUSIONSOUND_API  FusionSoundSetOption (
      const char                             *name,               /* option name */
      const char                             *value               /* option value */
 );
@@ -87,7 +91,7 @@ DirectResult FusionSoundSetOption (
 /*
  * Creates the main interface.
  */
-DirectResult FusionSoundCreate (
+DirectResult FUSIONSOUND_API  FusionSoundCreate (
      IFusionSound                          **ret_interface       /* pointer to the created interface */
 );
 
@@ -95,7 +99,7 @@ DirectResult FusionSoundCreate (
  * Prints a description of the result code along with an
  * optional message that is put in front with a colon.
  */
-DirectResult FusionSoundError (
+DirectResult FUSIONSOUND_API  FusionSoundError (
      const char                             *msg,                /* optional message */
      DirectResult                            result              /* result code to interpret */
 );
@@ -103,7 +107,7 @@ DirectResult FusionSoundError (
 /*
  * Returns a string describing result.
  */
-const char  *FusionSoundErrorString(
+const char   FUSIONSOUND_API *FusionSoundErrorString(
      DirectResult                            result              /* result code to describe */
 );
 
@@ -111,7 +115,7 @@ const char  *FusionSoundErrorString(
  * Behaves like FusionSoundError, but shuts down the calling
  * application.
  */
-DirectResult FusionSoundErrorFatal (
+DirectResult FUSIONSOUND_API  FusionSoundErrorFatal (
      const char                             *msg,                /* optional message */
      DirectResult                            result              /* result code to interpret */
 );

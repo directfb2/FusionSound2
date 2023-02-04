@@ -112,6 +112,8 @@ device_probe()
 
      if ((value = direct_config_get_value( "devdsp" )))
           fd = open( value, O_WRONLY | O_NONBLOCK );
+     else if (getenv( "OSS_AUDIODEV" ) && *getenv( "OSS_AUDIODEV" ) != '\0')
+          fd = open( getenv( "OSS_AUDIODEV" ), O_NONBLOCK );
      else
           fd = open( "/dev/dsp", O_WRONLY | O_NONBLOCK );
 
@@ -152,6 +154,10 @@ device_open( void                  *device_data,
      if ((value = direct_config_get_value( "devdsp" ))) {
           data->fd = open( value, O_WRONLY | O_NONBLOCK );
           D_INFO( "OSS/Sound: Using device %s as specified in FusionSound configuration\n", value );
+     }
+     else if (getenv( "OSS_AUDIODEV" ) && *getenv( "OSS_AUDIODEV" ) != '\0') {
+          data->fd = open( getenv( "OSS_AUDIODEV" ), O_WRONLY | O_NONBLOCK );
+          D_INFO( "OSS/Sound: Using device %s as set in OSS_AUDIODEV environment variable\n", getenv( "OSS_AUDIODEV" ) );
      }
      else {
           data->fd = open( "/dev/dsp", O_WRONLY | O_NONBLOCK );
@@ -196,6 +202,8 @@ device_open( void                  *device_data,
      /* Fill device information. */
      if ((value = direct_config_get_value( "devmixer" )))
           fd = open( value, O_RDONLY );
+     else if (getenv( "OSS_MIXERDEV" ) && *getenv( "OSS_MIXERDEV" ) != '\0')
+          fd = open( getenv( "OSS_MIXERDEV" ), O_RDONLY );
      else
           fd = open( "/dev/mixer", O_RDONLY );
 
@@ -277,6 +285,8 @@ device_get_volume( void  *device_data,
 
      if ((value = direct_config_get_value( "devmixer" )))
           fd = open( value, O_RDONLY );
+     else if (getenv( "OSS_MIXERDEV" ) && *getenv( "OSS_MIXERDEV" ) != '\0')
+          fd = open( getenv( "OSS_MIXERDEV" ), O_RDONLY );
      else
           fd = open( "/dev/mixer", O_RDONLY );
 
@@ -310,6 +320,8 @@ device_set_volume( void  *device_data,
 
      if ((value = direct_config_get_value( "devmixer" )))
           fd = open( value, O_RDONLY );
+     else if (getenv( "OSS_MIXERDEV" ) && *getenv( "OSS_MIXERDEV" ) != '\0')
+          fd = open( getenv( "OSS_MIXERDEV" ), O_RDONLY );
      else
           fd = open( "/dev/mixer", O_RDONLY );
 
@@ -359,6 +371,8 @@ device_resume( void *device_data )
 
      if ((value = direct_config_get_value( "devdsp" )))
           data->fd = open( value, O_WRONLY );
+     else if (getenv( "OSS_AUDIODEV" ) && *getenv( "OSS_AUDIODEV" ) != '\0')
+          data->fd = open( getenv( "OSS_AUDIODEV" ), O_WRONLY );
      else
           data->fd = open( "/dev/dsp", O_WRONLY );
 

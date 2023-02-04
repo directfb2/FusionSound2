@@ -89,7 +89,7 @@ typedef struct {
 #endif
 } __attribute__((packed)) s24;
 
-static inline int
+static __inline__ int
 getsamp( u8             *buf,
          const int       i,
          FSSampleFormat  f )
@@ -125,7 +125,7 @@ getsamp( u8             *buf,
      return 0;
 }
 
-static inline u8 *
+static __inline__ u8 *
 putsamp( u8             *dst,
          FSSampleFormat  f,
          int             s )
@@ -228,7 +228,8 @@ wave_mix_audio( u8             *buf,
                          s += sum - (sum >> 2);
                          s >>= 1;
                          clip( s );
-                    } else {
+                    }
+                    else {
                          s >>= 1;
                     }
                     dst = putsamp( dst, df, s );
@@ -287,7 +288,8 @@ wave_mix_audio( u8             *buf,
                     if (FS_MODE_NUM_REARS( mode ) == 1) {
                          s = (c[3] + c[4]) >> 1;
                          dst = putsamp( dst, df, s );
-                    } else {
+                    }
+                    else {
                          dst = putsamp( dst, df, c[3] );
                          dst = putsamp( dst, df, c[4] );
                     }
@@ -411,10 +413,10 @@ WaveStream( DirectThread *thread,
           if (len < 1)
                continue;
 
-          /* Converting to output format. */
           if (data->buf) {
                unsigned int pos = 0;
 
+               /* Converting to output format. */
                while (pos < len) {
                     if (data->dest.stream->Access( data->dest.stream, &dst, &frames ))
                          break;
@@ -503,8 +505,8 @@ WaveBuffer( DirectThread *thread,
           if (len < 1)
                continue;
 
-          /* Converting to output format. */
           if (data->buf) {
+               /* Converting to output format. */
                while (len > 0) {
                     ret = data->dest.buffer->Lock( data->dest.buffer, &dst, &frames, NULL );
                     if (ret) {
@@ -694,6 +696,9 @@ IFusionSoundMusicProvider_Wave_PlayToStream( IFusionSoundMusicProvider *thiz,
                return DR_UNSUPPORTED;
      }
 
+     if (desc.channels > 6)
+          return DR_UNSUPPORTED;
+
      switch (desc.channelmode) {
           case FSCM_MONO:
           case FSCM_STEREO:
@@ -782,6 +787,9 @@ IFusionSoundMusicProvider_Wave_PlayToBuffer( IFusionSoundMusicProvider *thiz,
           default:
                return DR_UNSUPPORTED;
      }
+
+     if (desc.channels > 6)
+          return DR_UNSUPPORTED;
 
      switch (desc.channelmode) {
           case FSCM_MONO:
@@ -977,7 +985,7 @@ IFusionSoundMusicProvider_Wave_WaitStatus( IFusionSoundMusicProvider *thiz,
      if (timeout) {
           long long s;
 
-          s = direct_clock_get_abs_micros() + timeout * 1000;
+          s = direct_clock_get_abs_micros() + timeout * 1000ll;
 
           while (direct_mutex_trylock( &data->lock )) {
                usleep( 1000 );
@@ -986,7 +994,7 @@ IFusionSoundMusicProvider_Wave_WaitStatus( IFusionSoundMusicProvider *thiz,
           }
 
           while (!(data->status & mask)) {
-               ret = direct_waitqueue_wait_timeout( &data->cond, &data->lock, timeout * 1000 );
+               ret = direct_waitqueue_wait_timeout( &data->cond, &data->lock, timeout * 1000ll );
                if (ret) {
                     direct_mutex_unlock( &data->lock );
                     return ret;

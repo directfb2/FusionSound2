@@ -1,3 +1,24 @@
+commit 1654c04732d59152569defaeb06f2153247e99bf
+Author: Nicolas Caramelli <caramelli.devel@gmail.com>
+Date:   Sat Feb 4 11:57:51 2023 +0100
+
+    Add OSS_AUDIODEV and OSS_MIXERDEV environment variables
+
+commit 52c23160936fe289bd8d86ec582aa1173d0e301b
+Merge: 507394e da0a94e
+Author: DirectFB2 <80045286+directfb2@users.noreply.github.com>
+Date:   Wed Jan 4 19:29:56 2023 +0100
+
+    Merge pull request #4 from caramelli/master
+    
+    Add support for static libraries (MCU targets)
+
+commit da0a94e18de5be30982b452b251da0bdc375d129
+Author: Nicolas Caramelli <caramelli.devel@gmail.com>
+Date:   Wed Jan 4 19:27:52 2023 +0100
+
+    Update ChangeLog
+
 commit ce6776550c1b089902170f76221acad34b7e114b
 Author: Nicolas Caramelli <caramelli.devel@gmail.com>
 Date:   Wed Jan 4 19:27:22 2023 +0100

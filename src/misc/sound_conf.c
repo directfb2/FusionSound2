@@ -38,7 +38,7 @@ static const char *fs_config_usage =
      "FusionSound options:\n"
      "\n"
      "  help                           Output FusionSound usage information and exit\n"
-     "  driver=<driver>                Specify the driver to use ('oss', 'alsa', etc.)\n"
+     "  driver=<driver>                Specify the driver to use ('alsa', 'oss', etc.)\n"
      "  [no-]banner                    Show FusionSound banner at startup (default enabled)\n"
      "  [no-]wait                      Wait for slaves before quitting (default enabled)\n"
      "  [no-]deinit-check              Check if all allocated resources have been released on exit (default enabled)\n"
@@ -120,6 +120,11 @@ config_allocate()
           return;
 
      fs_config = D_CALLOC( 1, sizeof(FSConfig) );
+
+     if (direct_access( "/dev/snd/timer", W_OK ) == DR_OK)
+          fs_config->driver  = D_STRDUP( "alsa" );
+     else if (direct_access( "/dev/dsp", W_OK ) == DR_OK)
+          fs_config->driver  = D_STRDUP( "oss" );
 
      fs_config->banner       = true;
 
