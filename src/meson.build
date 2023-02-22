@@ -43,15 +43,15 @@ misc_headers = [
   'misc/sound_conf.h'
 ]
 
-build_h = configuration_data()
+build_conf = configuration_data()
 
-build_h.set_quoted('FUSIONSOUND_VERSION_VENDOR', get_option('vendor-version'))
+build_conf.set_quoted('FUSIONSOUND_VERSION_VENDOR', get_option('vendor-version'))
 
-build_h.set10('FS_LINEAR_FILTER', get_option('linear-filter'))
+build_conf.set10('FS_LINEAR_FILTER', get_option('linear-filter'))
 
-build_h.set('FS_IEEE_FLOATS', get_option('ieee-floats'))
+build_conf.set('FS_IEEE_FLOATS', get_option('ieee-floats'))
 
-configure_file(configuration: build_h,
+configure_file(configuration: build_conf,
                output: 'build.h',
                install: true,
                install_dir: join_paths(get_option('includedir'), 'fusionsound-internal'))
@@ -77,7 +77,7 @@ pkgconfig.generate(filebase: 'fusionsound',
                    name: 'FusionSound',
                    description: 'Audio subsystem using Fusion IPC',
                    requires: 'direct fusion',
-                   requires_private: 'fusionsound-interfaces fusionsound-snddrivers',
+                   requires_private: 'fusionsound-interface fusionsound-snddriver',
                    libraries: '-L${libdir} -lfusionsound',
                    subdirs: 'fusionsound')
 

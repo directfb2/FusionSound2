@@ -22,7 +22,7 @@
 #include <fusionsound_util.h>
 #include <media/ifusionsoundmusicprovider.h>
 
-D_DEBUG_DOMAIN( MusicProvider_WAVE, "MusicProvider/WAVE", "Wave Music Provider" );
+D_DEBUG_DOMAIN( MusicProvider_WAVE, "MusicProvider/WAVE", "WAVE Music Provider" );
 
 static DirectResult Probe    ( IFusionSoundMusicProvider_ProbeContext *ctx );
 
@@ -32,7 +32,7 @@ static DirectResult Construct( IFusionSoundMusicProvider              *thiz,
 
 #include <direct/interface_implementation.h>
 
-DIRECT_INTERFACE_IMPLEMENTATION( IFusionSoundMusicProvider, Wave )
+DIRECT_INTERFACE_IMPLEMENTATION( IFusionSoundMusicProvider, WAVE )
 
 /**********************************************************************************************************************/
 
@@ -73,7 +73,7 @@ typedef struct {
 
      FMBufferCallback              buffer_callback;
      void                         *buffer_callback_context;
-} IFusionSoundMusicProvider_Wave_data;
+} IFusionSoundMusicProvider_WAVE_data;
 
 /**********************************************************************************************************************/
 
@@ -305,8 +305,8 @@ wave_mix_audio( u8             *buf,
 /**********************************************************************************************************************/
 
 static void
-WaveStop( IFusionSoundMusicProvider_Wave_data *data,
-          bool                                 now )
+WAVE_Stop( IFusionSoundMusicProvider_WAVE_data *data,
+           bool                                 now )
 {
      data->status = FMSTATE_STOP;
 
@@ -344,10 +344,10 @@ WaveStop( IFusionSoundMusicProvider_Wave_data *data,
 }
 
 static void *
-WaveStream( DirectThread *thread,
+WAVEStream( DirectThread *thread,
             void         *arg )
 {
-     IFusionSoundMusicProvider_Wave_data *data  = arg;
+     IFusionSoundMusicProvider_WAVE_data *data  = arg;
      int                                  count = data->dest.length * data->framesize;
 
      while (data->status == FMSTATE_PLAY) {
@@ -441,10 +441,10 @@ WaveStream( DirectThread *thread,
 }
 
 static void *
-WaveBuffer( DirectThread *thread,
+WAVEBuffer( DirectThread *thread,
             void         *arg )
 {
-     IFusionSoundMusicProvider_Wave_data *data  = arg;
+     IFusionSoundMusicProvider_WAVE_data *data  = arg;
      size_t                               count = data->dest.length * data->framesize;
 
      while (data->status == FMSTATE_PLAY) {
@@ -549,13 +549,13 @@ WaveBuffer( DirectThread *thread,
 /**********************************************************************************************************************/
 
 static void
-IFusionSoundMusicProvider_Wave_Destruct( IFusionSoundMusicProvider *thiz )
+IFusionSoundMusicProvider_WAVE_Destruct( IFusionSoundMusicProvider *thiz )
 {
-     IFusionSoundMusicProvider_Wave_data *data = thiz->priv;
+     IFusionSoundMusicProvider_WAVE_data *data = thiz->priv;
 
      D_DEBUG_AT( MusicProvider_WAVE, "%s( %p )\n", __FUNCTION__, thiz );
 
-     WaveStop( data, true );
+     WAVE_Stop( data, true );
 
      direct_stream_destroy( data->stream );
 
@@ -566,9 +566,9 @@ IFusionSoundMusicProvider_Wave_Destruct( IFusionSoundMusicProvider *thiz )
 }
 
 static DirectResult
-IFusionSoundMusicProvider_Wave_AddRef( IFusionSoundMusicProvider *thiz )
+IFusionSoundMusicProvider_WAVE_AddRef( IFusionSoundMusicProvider *thiz )
 {
-     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_Wave )
+     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_WAVE )
 
      D_DEBUG_AT( MusicProvider_WAVE, "%s( %p )\n", __FUNCTION__, thiz );
 
@@ -578,23 +578,23 @@ IFusionSoundMusicProvider_Wave_AddRef( IFusionSoundMusicProvider *thiz )
 }
 
 static DirectResult
-IFusionSoundMusicProvider_Wave_Release( IFusionSoundMusicProvider *thiz )
+IFusionSoundMusicProvider_WAVE_Release( IFusionSoundMusicProvider *thiz )
 {
-     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_Wave )
+     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_WAVE )
 
      D_DEBUG_AT( MusicProvider_WAVE, "%s( %p )\n", __FUNCTION__, thiz );
 
      if (--data->ref == 0)
-          IFusionSoundMusicProvider_Wave_Destruct( thiz );
+          IFusionSoundMusicProvider_WAVE_Destruct( thiz );
 
      return DR_OK;
 }
 
 static DirectResult
-IFusionSoundMusicProvider_Wave_GetCapabilities( IFusionSoundMusicProvider   *thiz,
+IFusionSoundMusicProvider_WAVE_GetCapabilities( IFusionSoundMusicProvider   *thiz,
                                                 FSMusicProviderCapabilities *ret_caps )
 {
-     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_Wave )
+     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_WAVE )
 
      D_DEBUG_AT( MusicProvider_WAVE, "%s( %p )\n", __FUNCTION__, thiz );
 
@@ -609,10 +609,10 @@ IFusionSoundMusicProvider_Wave_GetCapabilities( IFusionSoundMusicProvider   *thi
 }
 
 static DirectResult
-IFusionSoundMusicProvider_Wave_GetTrackDescription( IFusionSoundMusicProvider *thiz,
+IFusionSoundMusicProvider_WAVE_GetTrackDescription( IFusionSoundMusicProvider *thiz,
                                                     FSTrackDescription        *ret_desc )
 {
-     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_Wave )
+     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_WAVE )
 
      D_DEBUG_AT( MusicProvider_WAVE, "%s( %p )\n", __FUNCTION__, thiz );
 
@@ -625,10 +625,10 @@ IFusionSoundMusicProvider_Wave_GetTrackDescription( IFusionSoundMusicProvider *t
 }
 
 static DirectResult
-IFusionSoundMusicProvider_Wave_GetStreamDescription( IFusionSoundMusicProvider *thiz,
+IFusionSoundMusicProvider_WAVE_GetStreamDescription( IFusionSoundMusicProvider *thiz,
                                                      FSStreamDescription       *ret_desc )
 {
-     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_Wave )
+     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_WAVE )
 
      D_DEBUG_AT( MusicProvider_WAVE, "%s( %p )\n", __FUNCTION__, thiz );
 
@@ -645,10 +645,10 @@ IFusionSoundMusicProvider_Wave_GetStreamDescription( IFusionSoundMusicProvider *
 }
 
 static DirectResult
-IFusionSoundMusicProvider_Wave_GetBufferDescription( IFusionSoundMusicProvider *thiz,
+IFusionSoundMusicProvider_WAVE_GetBufferDescription( IFusionSoundMusicProvider *thiz,
                                                      FSBufferDescription       *ret_desc )
 {
-     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_Wave )
+     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_WAVE )
 
      D_DEBUG_AT( MusicProvider_WAVE, "%s( %p )\n", __FUNCTION__, thiz );
 
@@ -665,12 +665,12 @@ IFusionSoundMusicProvider_Wave_GetBufferDescription( IFusionSoundMusicProvider *
 }
 
 static DirectResult
-IFusionSoundMusicProvider_Wave_PlayToStream( IFusionSoundMusicProvider *thiz,
+IFusionSoundMusicProvider_WAVE_PlayToStream( IFusionSoundMusicProvider *thiz,
                                              IFusionSoundStream        *destination )
 {
      FSStreamDescription desc;
 
-     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_Wave )
+     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_WAVE )
 
      D_DEBUG_AT( MusicProvider_WAVE, "%s( %p )\n", __FUNCTION__, thiz );
 
@@ -720,7 +720,7 @@ IFusionSoundMusicProvider_Wave_PlayToStream( IFusionSoundMusicProvider *thiz,
 
      direct_mutex_lock( &data->lock );
 
-     WaveStop( data, false );
+     WAVE_Stop( data, false );
 
      if (desc.sampleformat != data->sampleformat || desc.channelmode != fs_mode_for_channels( data->channels )) {
           data->buf = D_MALLOC( desc.buffersize * data->channels * FS_BYTES_PER_SAMPLE( data->sampleformat ) );
@@ -747,7 +747,7 @@ IFusionSoundMusicProvider_Wave_PlayToStream( IFusionSoundMusicProvider *thiz,
 
      direct_waitqueue_broadcast( &data->cond );
 
-     data->thread = direct_thread_create( DTT_DEFAULT, WaveStream, data, "Wave Stream" );
+     data->thread = direct_thread_create( DTT_DEFAULT, WAVEStream, data, "WAVE Stream" );
 
      direct_mutex_unlock( &data->lock );
 
@@ -755,14 +755,14 @@ IFusionSoundMusicProvider_Wave_PlayToStream( IFusionSoundMusicProvider *thiz,
 }
 
 static DirectResult
-IFusionSoundMusicProvider_Wave_PlayToBuffer( IFusionSoundMusicProvider *thiz,
+IFusionSoundMusicProvider_WAVE_PlayToBuffer( IFusionSoundMusicProvider *thiz,
                                              IFusionSoundBuffer        *destination,
                                              FMBufferCallback           callback,
                                              void                      *ctx )
 {
      FSBufferDescription desc;
 
-     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_Wave )
+     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_WAVE )
 
      D_DEBUG_AT( MusicProvider_WAVE, "%s( %p )\n", __FUNCTION__, thiz );
 
@@ -812,7 +812,7 @@ IFusionSoundMusicProvider_Wave_PlayToBuffer( IFusionSoundMusicProvider *thiz,
 
      direct_mutex_lock( &data->lock );
 
-     WaveStop( data, false );
+     WAVE_Stop( data, false );
 
      if (desc.sampleformat != data->sampleformat || desc.channelmode != fs_mode_for_channels( data->channels )) {
           data->buf = D_MALLOC( desc.length * data->channels * FS_BYTES_PER_SAMPLE( data->sampleformat ) );
@@ -841,7 +841,7 @@ IFusionSoundMusicProvider_Wave_PlayToBuffer( IFusionSoundMusicProvider *thiz,
 
      direct_waitqueue_broadcast( &data->cond );
 
-     data->thread = direct_thread_create( DTT_DEFAULT, WaveBuffer, data, "Wave Buffer" );
+     data->thread = direct_thread_create( DTT_DEFAULT, WAVEBuffer, data, "WAVE Buffer" );
 
      direct_mutex_unlock( &data->lock );
 
@@ -849,15 +849,15 @@ IFusionSoundMusicProvider_Wave_PlayToBuffer( IFusionSoundMusicProvider *thiz,
 }
 
 static DirectResult
-IFusionSoundMusicProvider_Wave_Stop( IFusionSoundMusicProvider *thiz )
+IFusionSoundMusicProvider_WAVE_Stop( IFusionSoundMusicProvider *thiz )
 {
-     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_Wave )
+     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_WAVE )
 
      D_DEBUG_AT( MusicProvider_WAVE, "%s( %p )\n", __FUNCTION__, thiz );
 
      direct_mutex_lock( &data->lock );
 
-     WaveStop( data, false );
+     WAVE_Stop( data, false );
 
      direct_waitqueue_broadcast( &data->cond );
 
@@ -867,10 +867,10 @@ IFusionSoundMusicProvider_Wave_Stop( IFusionSoundMusicProvider *thiz )
 }
 
 static DirectResult
-IFusionSoundMusicProvider_Wave_GetStatus( IFusionSoundMusicProvider *thiz,
+IFusionSoundMusicProvider_WAVE_GetStatus( IFusionSoundMusicProvider *thiz,
                                           FSMusicProviderStatus     *ret_status )
 {
-     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_Wave )
+     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_WAVE )
 
      D_DEBUG_AT( MusicProvider_WAVE, "%s( %p )\n", __FUNCTION__, thiz );
 
@@ -883,13 +883,13 @@ IFusionSoundMusicProvider_Wave_GetStatus( IFusionSoundMusicProvider *thiz,
 }
 
 static DirectResult
-IFusionSoundMusicProvider_Wave_SeekTo( IFusionSoundMusicProvider *thiz,
+IFusionSoundMusicProvider_WAVE_SeekTo( IFusionSoundMusicProvider *thiz,
                                        double                     seconds )
 {
      DirectResult ret;
      unsigned int offset;
 
-     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_Wave )
+     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_WAVE )
 
      D_DEBUG_AT( MusicProvider_WAVE, "%s( %p )\n", __FUNCTION__, thiz );
 
@@ -918,10 +918,10 @@ IFusionSoundMusicProvider_Wave_SeekTo( IFusionSoundMusicProvider *thiz,
 }
 
 static DirectResult
-IFusionSoundMusicProvider_Wave_GetPos( IFusionSoundMusicProvider *thiz,
+IFusionSoundMusicProvider_WAVE_GetPos( IFusionSoundMusicProvider *thiz,
                                        double                    *ret_seconds )
 {
-     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_Wave )
+     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_WAVE )
 
      D_DEBUG_AT( MusicProvider_WAVE, "%s( %p )\n", __FUNCTION__, thiz );
 
@@ -934,10 +934,10 @@ IFusionSoundMusicProvider_Wave_GetPos( IFusionSoundMusicProvider *thiz,
 }
 
 static DirectResult
-IFusionSoundMusicProvider_Wave_GetLength( IFusionSoundMusicProvider *thiz,
+IFusionSoundMusicProvider_WAVE_GetLength( IFusionSoundMusicProvider *thiz,
                                           double                    *ret_seconds )
 {
-     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_Wave )
+     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_WAVE )
 
      D_DEBUG_AT( MusicProvider_WAVE, "%s( %p )\n", __FUNCTION__, thiz );
 
@@ -950,10 +950,10 @@ IFusionSoundMusicProvider_Wave_GetLength( IFusionSoundMusicProvider *thiz,
 }
 
 static DirectResult
-IFusionSoundMusicProvider_Wave_SetPlaybackFlags( IFusionSoundMusicProvider    *thiz,
+IFusionSoundMusicProvider_WAVE_SetPlaybackFlags( IFusionSoundMusicProvider    *thiz,
                                                  FSMusicProviderPlaybackFlags  flags )
 {
-     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_Wave )
+     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_WAVE )
 
      D_DEBUG_AT( MusicProvider_WAVE, "%s( %p )\n", __FUNCTION__, thiz );
 
@@ -969,13 +969,13 @@ IFusionSoundMusicProvider_Wave_SetPlaybackFlags( IFusionSoundMusicProvider    *t
 }
 
 static DirectResult
-IFusionSoundMusicProvider_Wave_WaitStatus( IFusionSoundMusicProvider *thiz,
+IFusionSoundMusicProvider_WAVE_WaitStatus( IFusionSoundMusicProvider *thiz,
                                            FSMusicProviderStatus      mask,
                                            unsigned int               timeout )
 {
      DirectResult ret;
 
-     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_Wave )
+     DIRECT_INTERFACE_GET_DATA( IFusionSoundMusicProvider_WAVE )
 
      D_DEBUG_AT( MusicProvider_WAVE, "%s( %p )\n", __FUNCTION__, thiz );
 
@@ -1040,7 +1040,7 @@ Construct( IFusionSoundMusicProvider *thiz,
      u32           data_size;
      const char   *fmt;
 
-     DIRECT_ALLOCATE_INTERFACE_DATA( thiz, IFusionSoundMusicProvider_Wave )
+     DIRECT_ALLOCATE_INTERFACE_DATA( thiz, IFusionSoundMusicProvider_WAVE )
 
      D_DEBUG_AT( MusicProvider_WAVE, "%s( %p )\n", __FUNCTION__, thiz );
 
@@ -1048,7 +1048,7 @@ Construct( IFusionSoundMusicProvider *thiz,
      data->stream = direct_stream_dup( stream );
 
 #define wave_read( buf, bytes ) {                                         \
-     unsigned int len = 0;                                                \
+     unsigned int len;                                                    \
      direct_stream_wait( stream, bytes, NULL );                           \
      if (direct_stream_read( stream, bytes, buf, &len ) || len < (bytes)) \
           goto error;                                                     \
@@ -1227,21 +1227,21 @@ Construct( IFusionSoundMusicProvider *thiz,
 
      data->status = FMSTATE_STOP;
 
-     thiz->AddRef               = IFusionSoundMusicProvider_Wave_AddRef;
-     thiz->Release              = IFusionSoundMusicProvider_Wave_Release;
-     thiz->GetCapabilities      = IFusionSoundMusicProvider_Wave_GetCapabilities;
-     thiz->GetTrackDescription  = IFusionSoundMusicProvider_Wave_GetTrackDescription;
-     thiz->GetStreamDescription = IFusionSoundMusicProvider_Wave_GetStreamDescription;
-     thiz->GetBufferDescription = IFusionSoundMusicProvider_Wave_GetBufferDescription;
-     thiz->PlayToStream         = IFusionSoundMusicProvider_Wave_PlayToStream;
-     thiz->PlayToBuffer         = IFusionSoundMusicProvider_Wave_PlayToBuffer;
-     thiz->Stop                 = IFusionSoundMusicProvider_Wave_Stop;
-     thiz->GetStatus            = IFusionSoundMusicProvider_Wave_GetStatus;
-     thiz->SeekTo               = IFusionSoundMusicProvider_Wave_SeekTo;
-     thiz->GetPos               = IFusionSoundMusicProvider_Wave_GetPos;
-     thiz->GetLength            = IFusionSoundMusicProvider_Wave_GetLength;
-     thiz->SetPlaybackFlags     = IFusionSoundMusicProvider_Wave_SetPlaybackFlags;
-     thiz->WaitStatus           = IFusionSoundMusicProvider_Wave_WaitStatus;
+     thiz->AddRef               = IFusionSoundMusicProvider_WAVE_AddRef;
+     thiz->Release              = IFusionSoundMusicProvider_WAVE_Release;
+     thiz->GetCapabilities      = IFusionSoundMusicProvider_WAVE_GetCapabilities;
+     thiz->GetTrackDescription  = IFusionSoundMusicProvider_WAVE_GetTrackDescription;
+     thiz->GetStreamDescription = IFusionSoundMusicProvider_WAVE_GetStreamDescription;
+     thiz->GetBufferDescription = IFusionSoundMusicProvider_WAVE_GetBufferDescription;
+     thiz->PlayToStream         = IFusionSoundMusicProvider_WAVE_PlayToStream;
+     thiz->PlayToBuffer         = IFusionSoundMusicProvider_WAVE_PlayToBuffer;
+     thiz->Stop                 = IFusionSoundMusicProvider_WAVE_Stop;
+     thiz->GetStatus            = IFusionSoundMusicProvider_WAVE_GetStatus;
+     thiz->SeekTo               = IFusionSoundMusicProvider_WAVE_SeekTo;
+     thiz->GetPos               = IFusionSoundMusicProvider_WAVE_GetPos;
+     thiz->GetLength            = IFusionSoundMusicProvider_WAVE_GetLength;
+     thiz->SetPlaybackFlags     = IFusionSoundMusicProvider_WAVE_SetPlaybackFlags;
+     thiz->WaitStatus           = IFusionSoundMusicProvider_WAVE_WaitStatus;
 
      return DR_OK;
 

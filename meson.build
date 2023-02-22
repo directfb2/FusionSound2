@@ -37,15 +37,15 @@ moduledir = dependency('directfb-internal').get_variable(pkgconfig: 'moduledir')
 direct_dep = dependency('direct')
 fusion_dep = dependency('fusion')
 
-config_h = configuration_data()
-
 cc = meson.get_compiler('c')
 
-config_h.set('SIZEOF_LONG', cc.sizeof('long'), description: 'The size of long, as computed by sizeof.')
+config_conf = configuration_data()
 
-config_h.set('WORDS_BIGENDIAN', host_machine.endian() == 'big', description: 'Byte ordering is bigendian.')
+config_conf.set('SIZEOF_LONG', cc.sizeof('long'), description: 'The size of long, as computed by sizeof.')
 
-configure_file(configuration: config_h, output: 'config.h')
+config_conf.set('WORDS_BIGENDIAN', host_machine.endian() == 'big', description: 'Byte ordering is bigendian.')
+
+configure_file(configuration: config_conf, output: 'config.h')
 
 config_inc = include_directories('.')
 fusionsound_inc = include_directories('include', 'src')
@@ -57,49 +57,32 @@ pkgconfig = import('pkgconfig')
 subdir('include')
 subdir('src')
 
+# interface modules
+
+subdir('interfaces/IFusionSoundMusicProvider')
+
 # snddriver modules
 
-libfusionsound_snddrivers_private = []
 subdir('snddrivers/dummy')
-if get_option('default_library') == 'static'
-  libfusionsound_snddrivers_private += ['-L${moduledir}/snddrivers']
-  libfusionsound_snddrivers_private += ['-Wl,--whole-archive -lfusionsound_dummy']
-endif
 if get_option('alsa')
   subdir('snddrivers/alsa')
-  if get_option('default_library') == 'static'
-    libfusionsound_snddrivers_private += ['-lfusionsound_alsa']
-    libfusionsound_snddrivers_private += run_command('pkg-config', '--static', '--libs', 'alsa',
-                                                     check: true).stdout().strip()
-  endif
 endif
 if get_option('oss')
   subdir('snddrivers/oss')
-  if get_option('default_library') == 'static'
-    libfusionsound_snddrivers_private += ['-lfusionsound_oss']
-  endif
-endif
-if get_option('default_library') == 'static'
-  libfusionsound_snddrivers_private += ['-Wl,--no-whole-archive']
 endif
 
-pkgconfig.generate(filebase: 'fusionsound-snddrivers',
-                   variables: 'moduledir=' + moduledir,
-                   name: 'FusionSound-snddrivers',
-                   description: 'FusionSound snddriver modules',
-                   libraries_private: libfusionsound_snddrivers_private)
+# generate .pc files
 
-# interface modules
+fs_update_pkgconfig_conf = configuration_data()
 
-libfusionsound_interfaces_private = []
-subdir('interfaces/IFusionSoundMusicProvider')
-if get_option('default_library') == 'static'
-  libfusionsound_interfaces_private += ['-L${moduledir}/interfaces/IFusionSoundMusicProvider']
-  libfusionsound_interfaces_private += ['-Wl,--whole-archive -lifusionsoundmusicprovider_wave -Wl,--no-whole-archive']
-endif
+fs_update_pkgconfig_conf.set('PKGCONFIGDIR', join_paths(get_option('prefix'), get_option('libdir'), 'pkgconfig'))
 
-pkgconfig.generate(filebase: 'fusionsound-interfaces',
-                   variables: 'moduledir=' + moduledir,
-                   name: 'FusionSound-interfaces',
-                   description: 'FusionSound interface modules',
-                   libraries_private: libfusionsound_interfaces_private)
+fs_update_pkgconfig_conf.set('VERSION', fusionsound_version)
+
+fs_update_pkgconfig = configure_file(configuration: fs_update_pkgconfig_conf,
+                                     input: 'fs-update-pkgconfig.in',
+                                     output: 'fs-update-pkgconfig',
+                                     install: true,
+                                     install_dir: get_option('bindir'))
+
+meson.add_install_script(fs_update_pkgconfig, skip_if_destdir: true)
