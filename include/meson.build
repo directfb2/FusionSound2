@@ -19,18 +19,22 @@ fusionsound_headers = [
   'fusionsound_util.h'
 ]
 
-fusionsound_version_h = configuration_data()
-fusionsound_version_h.set('FUSIONSOUND_MAJOR_VERSION', fusionsound_major_version)
-fusionsound_version_h.set('FUSIONSOUND_MINOR_VERSION', fusionsound_minor_version)
-fusionsound_version_h.set('FUSIONSOUND_MICRO_VERSION', fusionsound_micro_version)
-configure_file(configuration: fusionsound_version_h,
+fusionsound_version_conf = configuration_data()
+
+fusionsound_version_conf.set('FUSIONSOUND_MAJOR_VERSION', fusionsound_major_version)
+fusionsound_version_conf.set('FUSIONSOUND_MINOR_VERSION', fusionsound_minor_version)
+fusionsound_version_conf.set('FUSIONSOUND_MICRO_VERSION', fusionsound_micro_version)
+
+configure_file(configuration: fusionsound_version_conf,
                output: 'fusionsound_version.h',
                install: true,
                install_dir: join_paths(get_option('includedir'), 'fusionsound'))
 
-fusionsound_build_h = configuration_data()
-fusionsound_build_h.set('FS_MAX_CHANNELS', get_option('multichannel') ? 6 : 2)
-configure_file(configuration: fusionsound_build_h,
+fusionsound_build_conf = configuration_data()
+
+fusionsound_build_conf.set('FS_MAX_CHANNELS', get_option('multichannel') ? 6 : 2)
+
+configure_file(configuration: fusionsound_build_conf,
                output: 'fusionsound_build.h',
                install: true,
                install_dir: join_paths(get_option('includedir'), 'fusionsound'))

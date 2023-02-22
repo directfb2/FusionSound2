@@ -1,3 +1,24 @@
+commit cb2fe0898a695a148d463758829736b0d257d6b5
+Author: Nicolas Caramelli <caramelli.devel@gmail.com>
+Date:   Wed Feb 22 08:40:31 2023 +0100
+
+    Add pkg-config files per module (for static build)
+
+commit a6795ab62f644d6cc408e116ad38aa8dd65314a7
+Merge: 52c2316 bf24656
+Author: DirectFB2 <80045286+directfb2@users.noreply.github.com>
+Date:   Sat Feb 4 12:03:28 2023 +0100
+
+    Merge pull request #5 from caramelli/master
+    
+    Add OSS_AUDIODEV and OSS_MIXERDEV environment variables
+
+commit bf24656147e4ff86f45ecc3d31654496f903c5d6
+Author: Nicolas Caramelli <caramelli.devel@gmail.com>
+Date:   Sat Feb 4 11:58:11 2023 +0100
+
+    Update ChangeLog
+
 commit 1654c04732d59152569defaeb06f2153247e99bf
 Author: Nicolas Caramelli <caramelli.devel@gmail.com>
 Date:   Sat Feb 4 11:57:51 2023 +0100
