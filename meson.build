@@ -85,4 +85,4 @@ fs_update_pkgconfig = configure_file(configuration: fs_update_pkgconfig_conf,
                                      install: true,
                                      install_dir: get_option('bindir'))
 
-meson.add_install_script(fs_update_pkgconfig, skip_if_destdir: true)
+meson.add_install_script(fs_update_pkgconfig)
