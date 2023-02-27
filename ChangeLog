@@ -1,3 +1,24 @@
+commit 1d77cbc489c5f0e10869ac619578a4f73a37831c
+Author: Nicolas Caramelli <caramelli.devel@gmail.com>
+Date:   Mon Feb 27 10:59:28 2023 +0100
+
+    fs-update-pkgconfig: Add DESTDIR
+
+commit 30f66c3d81ee5a9f48e650f96188749cb7b1f3ce
+Merge: a6795ab 56c6482
+Author: DirectFB2 <80045286+directfb2@users.noreply.github.com>
+Date:   Wed Feb 22 08:44:28 2023 +0100
+
+    Merge pull request #6 from caramelli/master
+    
+    Add pkg-config files per module (for static build)
+
+commit 56c6482f1e7b953a01f982a9b4e964daaae9f8c3
+Author: Nicolas Caramelli <caramelli.devel@gmail.com>
+Date:   Wed Feb 22 08:40:40 2023 +0100
+
+    Update ChangeLog
+
 commit cb2fe0898a695a148d463758829736b0d257d6b5
 Author: Nicolas Caramelli <caramelli.devel@gmail.com>
 Date:   Wed Feb 22 08:40:31 2023 +0100
