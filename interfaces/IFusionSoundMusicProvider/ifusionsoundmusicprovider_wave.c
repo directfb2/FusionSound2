@@ -1222,7 +1222,7 @@ Construct( IFusionSoundMusicProvider *thiz,
 
      data->desc.bitrate = data->samplerate * data->channels * FS_BITS_PER_SAMPLE( data->sampleformat );
 
-     direct_recursive_mutex_init( &data->lock );
+     direct_mutex_init( &data->lock );
      direct_waitqueue_init( &data->cond );
 
      data->status = FMSTATE_STOP;
