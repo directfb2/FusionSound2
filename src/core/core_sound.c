@@ -303,12 +303,12 @@ fs_core_destroy( CoreSound *core,
 
      fusion_exit( core->world, emergency );
 
-     D_FREE( core );
-     core_sound = NULL;
-
      /* Quit if fork. */
      if (core->detached)
           _exit( 0 );
+
+     D_FREE( core );
+     core_sound = NULL;
 
      direct_mutex_unlock( &core_sound_lock );
 

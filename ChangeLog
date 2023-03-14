@@ -1,3 +1,24 @@
+commit 4f810f0545c60871f174cc698319cb8c917d6805
+Author: Nicolas Caramelli <caramelli.devel@gmail.com>
+Date:   Tue Mar 14 03:16:13 2023 +0100
+
+    Memory fix: Invalid read in fs_core_destroy()
+
+commit e98361e073302f3ad4a601442fa3894eaafb093e
+Merge: 30f66c3 362ed16
+Author: DirectFB2 <80045286+directfb2@users.noreply.github.com>
+Date:   Mon Feb 27 11:16:11 2023 +0100
+
+    Merge pull request #7 from caramelli/master
+    
+    fs-update-pkgconfig: Add DESTDIR
+
+commit 362ed16e7c2e7f0ea8d68fd7d2dd70f8ea09f9a7
+Author: Nicolas Caramelli <caramelli.devel@gmail.com>
+Date:   Mon Feb 27 10:59:40 2023 +0100
+
+    Update ChangeLog
+
 commit 1d77cbc489c5f0e10869ac619578a4f73a37831c
 Author: Nicolas Caramelli <caramelli.devel@gmail.com>
 Date:   Mon Feb 27 10:59:28 2023 +0100
