@@ -19,3 +19,10 @@ library('fusionsound_dummy',
         dependencies: fusionsound_dep,
         install: true,
         install_dir: join_paths(moduledir, 'snddrivers'))
+
+pkgconfig.generate(filebase: 'fusionsound-snddriver-dummy',
+                   variables: 'moduledir=' + moduledir,
+                   name: 'FusionSound-snddriver-dummy',
+                   description: 'Dummy sound driver',
+                   libraries_private: ['-L${moduledir}/snddrivers',
+                                       '-Wl,--whole-archive -lfusionsound_dummy -Wl,--no-whole-archive'])

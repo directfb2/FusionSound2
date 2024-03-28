@@ -29,7 +29,7 @@ static DirectResult
 device_probe()
 {
      /* Loaded only when requested. */
-     if (!fs_config->driver || strcmp( fs_config->driver, "dummy" ))
+     if (!fs_config->snddriver || strcmp( fs_config->snddriver, "dummy" ))
           return DR_UNSUPPORTED;
 
      return DR_OK;

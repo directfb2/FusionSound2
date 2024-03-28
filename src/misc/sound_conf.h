@@ -24,7 +24,7 @@
 /**********************************************************************************************************************/
 
 typedef struct {
-     char           *driver;
+     char           *snddriver;
      bool            banner;
      bool            wait;
      bool            deinit_check;
