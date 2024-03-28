@@ -1,3 +1,24 @@
+commit a95c153d81d8d18275524f0b7f1a4535b2dfc21c
+Author: Nicolas Caramelli <caramelli.devel@gmail.com>
+Date:   Thu Mar 28 20:03:42 2024 +0100
+
+    Rename driver to snddriver
+
+commit 7a98d790c0148a6135f82d8fcbe4603cd57b34df
+Merge: e98361e c2b7f3e
+Author: DirectFB2 <80045286+directfb2@users.noreply.github.com>
+Date:   Tue Mar 14 03:36:14 2023 +0100
+
+    Merge pull request #8 from caramelli/master
+    
+    Memory fix: Invalid read in fs_core_destroy()
+
+commit c2b7f3e5dbe00e2acb7783e27b9654b6137ccebe
+Author: Nicolas Caramelli <caramelli.devel@gmail.com>
+Date:   Tue Mar 14 03:19:16 2023 +0100
+
+    Update ChangeLog
+
 commit 4f810f0545c60871f174cc698319cb8c917d6805
 Author: Nicolas Caramelli <caramelli.devel@gmail.com>
 Date:   Tue Mar 14 03:16:13 2023 +0100
