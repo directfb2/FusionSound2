@@ -38,7 +38,7 @@ static const char *fs_config_usage =
      "FusionSound options:\n"
      "\n"
      "  help                           Output FusionSound usage information and exit\n"
-     "  driver=<driver>                Specify the driver to use ('alsa', 'oss', etc.)\n"
+     "  snddriver=<snddriver>          Specify the snddriver ('alsa', 'oss', etc.)\n"
      "  [no-]banner                    Show FusionSound banner at startup (default enabled)\n"
      "  [no-]wait                      Wait for slaves before quitting (default enabled)\n"
      "  [no-]deinit-check              Check if all allocated resources have been released on exit (default enabled)\n"
@@ -122,22 +122,22 @@ config_allocate()
      fs_config = D_CALLOC( 1, sizeof(FSConfig) );
 
      if (direct_access( "/dev/snd/timer", W_OK ) == DR_OK)
-          fs_config->driver  = D_STRDUP( "alsa" );
+          fs_config->snddriver = D_STRDUP( "alsa" );
      else if (direct_access( "/dev/dsp", W_OK ) == DR_OK)
-          fs_config->driver  = D_STRDUP( "oss" );
+          fs_config->snddriver = D_STRDUP( "oss" );
 
-     fs_config->banner       = true;
+     fs_config->banner         = true;
 
-     fs_config->wait         = true;
+     fs_config->wait           = true;
 
-     fs_config->deinit_check = true;
+     fs_config->deinit_check   = true;
 
-     fs_config->session      = 1;
+     fs_config->session        = 1;
 
-     fs_config->channelmode  = FSCM_STEREO;
-     fs_config->sampleformat = FSSF_S16;
-     fs_config->samplerate   = 48000;
-     fs_config->buffertime   = 25;
+     fs_config->channelmode    = FSCM_STEREO;
+     fs_config->sampleformat   = FSSF_S16;
+     fs_config->samplerate     = 48000;
+     fs_config->buffertime     = 25;
 }
 
 static DirectResult
@@ -197,15 +197,15 @@ fs_config_set( const char *name,
 {
      bool fsoption = true;
 
-     if (strcmp( name, "driver" ) == 0) {
+     if (strcmp( name, "snddriver" ) == 0) {
           if (value) {
-               if (fs_config->driver)
-                    D_FREE( fs_config->driver );
+               if (fs_config->snddriver)
+                    D_FREE( fs_config->snddriver );
 
-               fs_config->driver = D_STRDUP( value );
+               fs_config->snddriver = D_STRDUP( value );
           }
           else {
-               D_ERROR( "FusionSound/Config: '%s': No driver specified!\n", name );
+               D_ERROR( "FusionSound/Config: '%s': No snddriver specified!\n", name );
                return DR_INVARG;
           }
      } else

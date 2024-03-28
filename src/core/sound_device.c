@@ -59,7 +59,7 @@ fs_device_initialize( CoreSound              *core,
      snprintf( device->driver_info.name,   FS_SOUND_DRIVER_INFO_NAME_LENGTH,   "none" );
      snprintf( device->driver_info.vendor, FS_SOUND_DRIVER_INFO_VENDOR_LENGTH, "DirectFB" );
 
-     if (!fs_config->driver || strcmp( fs_config->driver, "none" )) {
+     if (!fs_config->snddriver || strcmp( fs_config->snddriver, "none" )) {
           /* Build a list of available drivers. */
           direct_modules_explore_directory( &fs_sound_drivers );
 
@@ -71,7 +71,7 @@ fs_device_initialize( CoreSound              *core,
                if (!funcs)
                     continue;
 
-               if (!device->module && (!fs_config->driver || !strcmp( module->name, fs_config->driver ))) {
+               if (!device->module && (!fs_config->snddriver || !strcmp( module->name, fs_config->snddriver ))) {
                     if (funcs->Probe() == DR_OK) {
                          device->module = module;
                          device->funcs  = funcs;
@@ -84,8 +84,8 @@ fs_device_initialize( CoreSound              *core,
           }
 
           if (!device->module) {
-               if (fs_config->driver) {
-                    D_ERROR( "CoreSound/Device: Sound driver '%s' not found!\n", fs_config->driver );
+               if (fs_config->snddriver) {
+                    D_ERROR( "CoreSound/Device: Sound driver '%s' not found!\n", fs_config->snddriver );
                }
                else {
                     D_ERROR( "CoreSound/Device: No sound driver found!\n" );

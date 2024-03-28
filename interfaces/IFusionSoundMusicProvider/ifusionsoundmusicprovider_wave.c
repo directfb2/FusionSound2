@@ -178,7 +178,7 @@ wave_mix_audio( u8             *buf,
      int c[6]  = { 0, 0, 0, 0, 0,  0 };
      int bytes = FS_BYTES_PER_SAMPLE( sf ) * channels;
 
-#define clip(s)                 \
+#define clip( s )               \
      if ((s) >= (1 << 29))      \
           (s) = (1 << 29) - 1;  \
      else if ((s) < -(1 << 29)) \
@@ -229,9 +229,8 @@ wave_mix_audio( u8             *buf,
                          s >>= 1;
                          clip( s );
                     }
-                    else {
+                    else
                          s >>= 1;
-                    }
                     dst = putsamp( dst, df, s );
                     break;
                case FSCM_STEREO:
@@ -255,14 +254,14 @@ wave_mix_audio( u8             *buf,
                     break;
                case FSCM_STEREO30:
                case FSCM_STEREO31:
-                    s = c[0] + (c[3] - (c[3] >> 2));
+                    s = c[0] + c[3] - (c[3] >> 2);
                     clip( s );
                     dst = putsamp( dst, df, s );
                     if (channels == 2 || channels == 4)
                          dst = putsamp( dst, df, (c[0] + c[2]) >> 1 );
                     else
                          dst = putsamp( dst, df, c[1] );
-                    s = c[2] + (c[4] - (c[4] >> 2));
+                    s = c[2] + c[4] - (c[4] >> 2);
                     clip( s );
                     dst = putsamp( dst, df, s );
                     if (FS_MODE_HAS_LFE( mode ))
