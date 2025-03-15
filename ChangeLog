@@ -1,3 +1,24 @@
+commit 2581147a36eaf48a7a249b1cda5b00b0a361677c
+Author: Nicolas Caramelli <caramelli.devel@gmail.com>
+Date:   Sat Mar 15 17:59:31 2025 +0100
+
+    Don't generate .pc files for static modules when building for shared type libraries
+
+commit 8efc7ebe27fdbd187606fa85263cfd11ac8c9522
+Merge: 7a98d79 819ad3a
+Author: DirectFB2 <80045286+directfb2@users.noreply.github.com>
+Date:   Thu Mar 28 20:06:59 2024 +0100
+
+    Merge pull request #9 from caramelli/master
+    
+    Rename driver to snddriver
+
+commit 819ad3a6284d1ffb4fa73b6b20ba3c1fd558561c
+Author: Nicolas Caramelli <caramelli.devel@gmail.com>
+Date:   Thu Mar 28 20:04:10 2024 +0100
+
+    Update ChangeLog
+
 commit a95c153d81d8d18275524f0b7f1a4535b2dfc21c
 Author: Nicolas Caramelli <caramelli.devel@gmail.com>
 Date:   Thu Mar 28 20:03:42 2024 +0100
