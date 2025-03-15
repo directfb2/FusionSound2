@@ -54,19 +54,24 @@ build_conf.set('FS_IEEE_FLOATS', get_option('ieee-floats'))
 configure_file(configuration: build_conf,
                output: 'build.h',
                install: true,
-               install_dir: join_paths(get_option('includedir'), 'fusionsound-internal'))
+               install_dir: get_option('includedir') / 'fusionsound-internal')
+
+fusionsound_private = []
+if get_option('default_library') == 'static'
+  fusionsound_private = 'fusionsound-interface fusionsound-snddriver'
+endif
 
 libfusionsound = library('fusionsound-@0@.@1@'.format(fusionsound_major_version, fusionsound_minor_version),
                          fusionsound_sources,
                          include_directories: [config_inc, fusionsound_inc],
-                         c_args: ['-DSYSCONFDIR="' + join_paths(get_option('prefix'), get_option('sysconfdir')) + '"'],
+                         c_args: ['-DSYSCONFDIR="' + get_option('prefix') / get_option('sysconfdir') + '"'],
                          dependencies: [direct_dep, fusion_dep],
                          version: '@0@.0.0'.format(fusionsound_micro_version),
                          install: true)
 
 install_symlink('libfusionsound' + libsuffix,
                 pointing_to: 'libfusionsound-@0@.@1@'.format(fusionsound_major_version, fusionsound_minor_version) + libsuffix,
-                install_dir: join_paths(get_option('prefix'), get_option('libdir')))
+                install_dir: get_option('prefix') / get_option('libdir'))
 
 install_headers('ifusionsound.h', subdir: 'fusionsound-internal')
 install_headers(core_headers,     subdir: 'fusionsound-internal/core')
@@ -77,7 +82,7 @@ pkgconfig.generate(filebase: 'fusionsound',
                    name: 'FusionSound',
                    description: 'Audio subsystem using Fusion IPC',
                    requires: 'direct fusion',
-                   requires_private: 'fusionsound-interface fusionsound-snddriver',
+                   requires_private: fusionsound_private,
                    libraries: '-L${libdir} -lfusionsound',
                    subdirs: 'fusionsound')
 

@@ -32,10 +32,20 @@ else
   libsuffix = '.a'
 endif
 
-moduledir = dependency('directfb-internal').get_variable(pkgconfig: 'moduledir')
-
 direct_dep = dependency('direct')
 fusion_dep = dependency('fusion')
+
+if run_command('pkg-config', '--print-requires-private', 'directfb', check: false).stdout().strip() != ''
+  if get_option('default_library') == 'shared'
+    error('''Building with 'shared' library type, but DirectFB was built with 'static' library type.''')
+  endif
+else
+  if get_option('default_library') == 'static'
+    error('''Building with 'static' library type, but DirectFB was built with 'shared' library type.''')
+  endif
+endif
+
+moduledir = dependency('directfb-internal').get_variable(pkgconfig: 'moduledir')
 
 cc = meson.get_compiler('c')
 
@@ -71,18 +81,20 @@ if get_option('oss')
   subdir('snddrivers/oss')
 endif
 
-# generate .pc files
+# generate the .pc files of the static modules
 
-fs_update_pkgconfig_conf = configuration_data()
+if get_option('default_library') == 'static'
+  fs_update_pkgconfig_conf = configuration_data()
 
-fs_update_pkgconfig_conf.set('PKGCONFIGDIR', join_paths(get_option('prefix'), get_option('libdir'), 'pkgconfig'))
+  fs_update_pkgconfig_conf.set('PKGCONFIGDIR', get_option('prefix') / get_option('libdir') / 'pkgconfig')
 
-fs_update_pkgconfig_conf.set('VERSION', fusionsound_version)
+  fs_update_pkgconfig_conf.set('VERSION', fusionsound_version)
 
-fs_update_pkgconfig = configure_file(configuration: fs_update_pkgconfig_conf,
-                                     input: 'fs-update-pkgconfig.in',
-                                     output: 'fs-update-pkgconfig',
-                                     install: true,
-                                     install_dir: get_option('bindir'))
+  fs_update_pkgconfig = configure_file(configuration: fs_update_pkgconfig_conf,
+                                       input: 'fs-update-pkgconfig.in',
+                                       output: 'fs-update-pkgconfig',
+                                       install: true,
+                                       install_dir: get_option('bindir'))
 
-meson.add_install_script(fs_update_pkgconfig)
+  meson.add_install_script(fs_update_pkgconfig)
+endif

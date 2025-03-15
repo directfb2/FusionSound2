@@ -19,11 +19,13 @@ library('ifusionsoundmusicprovider_wave',
         include_directories: config_inc,
         dependencies: fusionsound_dep,
         install: true,
-        install_dir: join_paths(moduledir, 'interfaces/IFusionSoundMusicProvider'))
+        install_dir: moduledir / 'interfaces/IFusionSoundMusicProvider')
 
-pkgconfig.generate(filebase: 'fusionsound-interface-musicprovider_wave',
-                   variables: 'moduledir=' + moduledir,
-                   name: 'FusionSound-interface-musicprovider_wave',
-                   description: 'WAVE music provider',
-                   libraries_private: ['-L${moduledir}/interfaces/IFusionSoundMusicProvider',
-                                       '-Wl,--whole-archive -lifusionsoundmusicprovider_wave -Wl,--no-whole-archive'])
+if get_option('default_library') == 'static'
+  pkgconfig.generate(filebase: 'fusionsound-interface-musicprovider_wave',
+                     variables: 'moduledir=' + moduledir,
+                     name: 'FusionSound-interface-musicprovider_wave',
+                     description: 'WAVE music provider',
+                     libraries_private: ['-L${moduledir}/interfaces/IFusionSoundMusicProvider',
+                                         '-Wl,--whole-archive -lifusionsoundmusicprovider_wave -Wl,--no-whole-archive'])
+endif

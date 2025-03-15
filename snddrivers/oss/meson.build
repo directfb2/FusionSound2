@@ -23,11 +23,13 @@ library('fusionsound_oss',
         'oss.c',
         dependencies: fusionsound_dep,
         install: true,
-        install_dir: join_paths(moduledir, 'snddrivers'))
+        install_dir: moduledir / 'snddrivers')
 
-pkgconfig.generate(filebase: 'fusionsound-snddriver-oss',
-                   variables: 'moduledir=' + moduledir,
-                   name: 'FusionSound-snddriver-oss',
-                   description: 'OSS sound driver',
-                   libraries_private: ['-L${moduledir}/snddrivers',
-                                       '-Wl,--whole-archive -lfusionsound_oss -Wl,--no-whole-archive'])
+if get_option('default_library') == 'static'
+  pkgconfig.generate(filebase: 'fusionsound-snddriver-oss',
+                     variables: 'moduledir=' + moduledir,
+                     name: 'FusionSound-snddriver-oss',
+                     description: 'OSS sound driver',
+                     libraries_private: ['-L${moduledir}/snddrivers',
+                                         '-Wl,--whole-archive -lfusionsound_oss -Wl,--no-whole-archive'])
+endif
