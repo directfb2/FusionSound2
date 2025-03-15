@@ -26,12 +26,14 @@ library('fusionsound_alsa',
         include_directories: config_inc,
         dependencies: [alsa_dep, fusionsound_dep],
         install: true,
-        install_dir: join_paths(moduledir, 'snddrivers'))
+        install_dir: moduledir / 'snddrivers')
 
-pkgconfig.generate(filebase: 'fusionsound-snddriver-alsa',
-                   variables: 'moduledir=' + moduledir,
-                   name: 'FusionSound-snddriver-alsa',
-                   description: 'ALSA sound driver',
-                   requires_private: 'alsa',
-                   libraries_private: ['-L${moduledir}/snddrivers',
-                                       '-Wl,--whole-archive -lfusionsound_alsa -Wl,--no-whole-archive'])
+if get_option('default_library') == 'static'
+  pkgconfig.generate(filebase: 'fusionsound-snddriver-alsa',
+                     variables: 'moduledir=' + moduledir,
+                     name: 'FusionSound-snddriver-alsa',
+                     description: 'ALSA sound driver',
+                     requires_private: 'alsa',
+                     libraries_private: ['-L${moduledir}/snddrivers',
+                                         '-Wl,--whole-archive -lfusionsound_alsa -Wl,--no-whole-archive'])
+endif

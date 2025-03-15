@@ -28,7 +28,7 @@ fusionsound_version_conf.set('FUSIONSOUND_MICRO_VERSION', fusionsound_micro_vers
 configure_file(configuration: fusionsound_version_conf,
                output: 'fusionsound_version.h',
                install: true,
-               install_dir: join_paths(get_option('includedir'), 'fusionsound'))
+               install_dir: get_option('includedir') / 'fusionsound')
 
 fusionsound_build_conf = configuration_data()
 
@@ -37,7 +37,7 @@ fusionsound_build_conf.set('FS_MAX_CHANNELS', get_option('multichannel') ? 6 : 2
 configure_file(configuration: fusionsound_build_conf,
                output: 'fusionsound_build.h',
                install: true,
-               install_dir: join_paths(get_option('includedir'), 'fusionsound'))
+               install_dir: get_option('includedir') / 'fusionsound')
 
 fusionsound_strings = custom_target('fusionsound_strings',
                                     command: ['gen_fusionsound_strings.sh', '@INPUT@'],
@@ -45,6 +45,6 @@ fusionsound_strings = custom_target('fusionsound_strings',
                                     output: 'fusionsound_strings.h',
                                     capture: true,
                                     install: true,
-                                    install_dir: join_paths(get_option('includedir'), 'fusionsound'))
+                                    install_dir: get_option('includedir') / 'fusionsound')
 
 install_headers(fusionsound_headers, subdir: 'fusionsound')
